@@ -1,4 +1,5 @@
 import js from '@eslint/js'
+import pluginNext from '@next/eslint-plugin-next'
 import configLove from 'eslint-config-love'
 import pluginPrettier from 'eslint-plugin-prettier/recommended'
 import pluginReact from 'eslint-plugin-react'
@@ -22,7 +23,8 @@ const config = [
       'simple-import-sort': pluginSimpleImportSort,
       unicorn: pluginUnicorn,
       react: pluginReact,
-      'react-hooks': pluginHooks
+      'react-hooks': pluginHooks,
+      next: pluginNext
     },
     languageOptions: {
       parserOptions: {

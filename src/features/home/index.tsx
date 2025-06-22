@@ -46,7 +46,7 @@ export const Home: FC = () => {
           </p>
           <div className="mt-10 flex items-center gap-x-6">
             <Button size="lg" asChild>
-              <Link href={ABSOLUTE_ROUTES.HOME}>Get started</Link>
+              <Link href={ABSOLUTE_ROUTES.CREATE_PROJECT}>Get started</Link>
             </Button>
           </div>
         </div>
