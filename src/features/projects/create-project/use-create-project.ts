@@ -67,7 +67,7 @@ export const useCreateProject = (): UseCreateProjectReturn => {
   })
 
   const onSubmit: SubmitHandler<ProjectSchemaType> = useCallback(() => {
-    router.push(ABSOLUTE_ROUTES.PROJECTS)
+    router.push(ABSOLUTE_ROUTES.PRODUCTS)
   }, [router])
 
   useEffect(() => {
