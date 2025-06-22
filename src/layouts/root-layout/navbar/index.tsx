@@ -6,7 +6,7 @@ import { ABSOLUTE_ROUTES } from '@/constants/routes'
 
 export const Navbar: FC = () => {
   return (
-    <div className="container mx-auto flex items-center justify-between p-4">
+    <div className="mx-auto flex items-center justify-between p-4 xl:container">
       <Link href={ABSOLUTE_ROUTES.HOME}>
         <h2 className="text-2xl font-semibold">HEALF.</h2>
       </Link>
