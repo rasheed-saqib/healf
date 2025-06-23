@@ -1,0 +1,96 @@
+import type { Table } from '@tanstack/react-table'
+import type { FC } from 'react'
+
+import {
+  Pagination,
+  PaginationContent,
+  PaginationFirst,
+  PaginationItem,
+  PaginationLast,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious
+} from '@/components/ui/pagination'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
+import type { Product } from '@/types/product'
+
+interface ProductsPaginationProps {
+  table: Table<Product>
+}
+
+const PAGE_SIZES = [12, 24, 48, 96]
+
+export const ProductsPagination: FC<ProductsPaginationProps> = ({ table }) => {
+  const currentPage = table.getState().pagination.pageIndex + 1
+  const totalPages = table.getPageCount()
+
+  return (
+    <div className="mt-8 flex justify-end gap-8">
+      <Pagination className="justify-end">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationFirst
+              onClick={table.firstPage}
+              disabled={!table.getCanPreviousPage()}
+              isActive={currentPage === 1}
+            />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationPrevious
+              onClick={table.previousPage}
+              disabled={currentPage === 1}
+            />
+          </PaginationItem>
+
+          <PaginationLink className="w-fit min-w-9 px-2" isActive>
+            {currentPage}
+          </PaginationLink>
+
+          <PaginationItem>
+            <PaginationNext
+              onClick={table.nextPage}
+              disabled={currentPage === totalPages}
+            />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLast
+              onClick={table.lastPage}
+              disabled={!table.getCanNextPage()}
+              isActive={currentPage === totalPages}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+
+      <Select
+        value={table.getState().pagination.pageSize.toString()}
+        onValueChange={value => {
+          const pageSize = Number.parseInt(value)
+          table.setPageSize(pageSize)
+        }}
+      >
+        <SelectTrigger>
+          <SelectValue placeholder="Select" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>Page Size</SelectLabel>
+            {PAGE_SIZES.map(size => (
+              <SelectItem key={size} value={size.toString()}>
+                {size}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+    </div>
+  )
+}

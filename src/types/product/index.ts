@@ -7,11 +7,11 @@ export type Product = {
   images: string[]
   type: string
   price_range: {
-    min_variant_price: {
+    min_variant_price?: {
       amount: string
       currency_code: string
     }
-    max_variant_price: {
+    max_variant_price?: {
       amount: string
       currency_code: string
     }

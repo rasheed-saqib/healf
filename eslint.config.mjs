@@ -55,6 +55,7 @@ const config = [
       '@typescript-eslint/no-redundant-type-constituents': 'off',
       '@typescript-eslint/no-shadow': 'error',
       '@typescript-eslint/no-unnecessary-condition': 'off',
+      '@typescript-eslint/no-unnecessary-type-conversion': 'off',
       '@typescript-eslint/no-unsafe-argument': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',

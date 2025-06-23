@@ -52,9 +52,7 @@ export const POST: NextMiddleware = async req => {
         path: url.href
       }
     })
-  } catch (error) {
-    console.log(error)
-
+  } catch {
     return NextResponse.json<APIResponse>(
       {
         status: 'error',

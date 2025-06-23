@@ -16,7 +16,7 @@ import {
   ProjectSchemaKeys,
   type ProjectSchemaType
 } from '@/schemas/project'
-import { uploadFile } from '@/services/files'
+import { uploadProducts } from '@/services/products'
 
 import { CreateProjectTab } from './create-project.constants'
 
@@ -42,7 +42,7 @@ export const useCreateProject = (): UseCreateProjectReturn => {
   const onSubmit: SubmitHandler<ProjectSchemaType> = useCallback(
     async data => {
       try {
-        await uploadFile(
+        await uploadProducts(
           data[ProjectSchemaKeys.FILE],
           data[ProjectSchemaKeys.KEYS]
         )
