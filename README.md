@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Product Search Platform
 
-## Getting Started
+##  Table of Contents
 
-First, run the development server:
+- [ Overview](#overview)
+- [ Features](#features)
+- [ Tech Stack](#tech-stack)
+- [ Getting Started](#getting-started)
+    - [ Prerequisites](#prerequisites)
+    - [ Installation](#installation)
+    - [ Usage](#usage)
+- [ Project Roadmap](#project-roadmap)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+##  Overview
+
+This Next.js application allows users to upload a CSV file containing product data and perform various operations like searching, sorting, and filtering. The app features a powerful search system, built-in fuzzy search, and an intuitive UI for managing and exploring product data.
+
+---
+
+##  Features
+
+Features
+- CSV File Upload: Upload a CSV file and map its columns to predefined product fields.
+
+- Dynamic Product Table: Automatically converts the CSV file to JSON and displays product data in a responsive table.
+
+- Advanced Search: Utilize a powerful search bar with autocomplete and fuzzy search capabilities.
+
+- Sorting & Filtering: Sort products by various attributes (e.g., price, rating) and filter them based on multiple criteria.
+
+- UI/UX: Designed with Shadcn UI components, offering a modern and responsive design.
+
+---
+
+##  Tech Stack
+- Frontend: Next.js TypeScript
+- UI Library: Shadcn, Tailwind CSS
+- Form Handling: React Hook Form
+- Form Validation: Zod
+- Search: MiniSearch
+- Table: React Table
+- State Management: Zustand
+---
+
+##  Getting Started
+
+###  Prerequisites
+
+Before getting started, ensure your runtime environment meets the following requirements:
+
+- NodeJS - v22.x.x
+- Pnpm - v9.x.x
+
+###  Installation
+
+1. Clone the repository:
+```sh
+git clone https://github.com/rasheed-saqib/healf
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Navigate to the project directory:
+```sh
+cd healf
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Install the project dependencies:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+pnpm install
+```
 
-## Learn More
+###  Usage
+Run the project locaclly using the following command:
 
-To learn more about Next.js, take a look at the following resources:
+```sh
+pnpm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
+##  Project Roadmap
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [X] **`Task 1`**: <strike>CSV parsing.</strike>
+- [X] **`Task 2`**: <strike>Search functionality.</strike>
+- [ ] **`Task 3`**: Implement authentication and support multiple files for different users.
+- [ ] **`Task 4`**: Automated testing setup.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

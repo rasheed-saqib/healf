@@ -3,6 +3,12 @@ import { ProjectSchemaKeys } from '@/schemas/project'
 import type { APIResponse } from '@/types/next'
 import type { Product } from '@/types/product'
 
+/**
+ * Uploads a file containing product data to the server.
+ * @param file
+ * @param keys
+ * @returns The URL of the uploaded file.
+ */
 export const uploadProducts = async (
   file: File,
   keys: Record<string, string> = {}
@@ -29,15 +35,17 @@ export const uploadProducts = async (
   return data.data.url
 }
 
+/**
+ * Fetches product data from a JSON file hosted on the server.
+ * @returns A promise that resolves to an array of products.
+ */
 export const getProducts = async (): Promise<Product[]> => {
   const url = new URL('/assets/products.json', clientEnv.NEXT_PUBLIC_APP_URL)
 
   const response = await fetch(url.href)
 
   if (!response.ok) {
-    throw new Error(
-      `Request to ${url} failed: ${response.status} ${response.statusText}`
-    )
+    return []
   }
 
   return (await response.json()) as Promise<Product[]>

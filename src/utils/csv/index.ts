@@ -1,5 +1,10 @@
 import { parse } from 'papaparse'
 
+/**
+ * Utility functions for parsing CSV files.
+ * @param file
+ * @returns {Promise<Array<Record<string, string>>>} - Parsed CSV data as an array of objects
+ */
 export const parseCSV = async (
   file: string
 ): Promise<Array<Record<string, string>>> => {
@@ -18,6 +23,11 @@ export const parseCSV = async (
   })
 }
 
+/**
+ * Utility function to get CSV headers.
+ * @param file
+ * @returns {Promise<string[]>} - Headers of the CSV file as an array of strings
+ */
 export const getCSVHeaders = async (file: File): Promise<string[]> => {
   return new Promise((resolve, reject) => {
     parse(file, {

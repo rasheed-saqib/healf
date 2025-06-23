@@ -1,5 +1,11 @@
 import { PRODUCT_FORMATTERS } from '@/constants/product'
 
+/**
+ * Formats an array of products based on a mapping of destination keys to source keys.
+ * @param products
+ * @param map
+ * @return An array of formatted products.
+ */
 export const formatProducts = (
   products: Array<Record<string, string>>,
   map: Record<string, string> = {}

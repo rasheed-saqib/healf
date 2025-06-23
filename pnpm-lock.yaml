@@ -59,9 +59,6 @@ importers:
       papaparse:
         specifier: 5.5.3
         version: 5.5.3
-      persist-and-sync:
-        specifier: 1.2.3
-        version: 1.2.3(zustand@5.0.5(@types/react@19.1.8)(react@19.1.0))
       pretty-bytes:
         specifier: 7.0.0
         version: 7.0.0
@@ -2077,11 +2074,6 @@ packages:
 
   path-parse@1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
-
-  persist-and-sync@1.2.3:
-    resolution: {integrity: sha512-narBnOLMCSNbQ8Jw0uElpl78ALkPNFvDiz0tUV/7JM/q90E9dntblDYz9mgEO8F9JT/S5pU7B7jltEDDdidbBw==}
-    peerDependencies:
-      zustand: '>=3'
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
@@ -4581,10 +4573,6 @@ snapshots:
   path-key@3.1.1: {}
 
   path-parse@1.0.7: {}
-
-  persist-and-sync@1.2.3(zustand@5.0.5(@types/react@19.1.8)(react@19.1.0)):
-    dependencies:
-      zustand: 5.0.5(@types/react@19.1.8)(react@19.1.0)
 
   picocolors@1.1.1: {}
 
