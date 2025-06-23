@@ -1,15 +1,19 @@
 'use client'
 
 import type { PaginationState, Updater } from '@tanstack/react-table'
-import { persistNSync } from 'persist-and-sync'
+import MiniSearch from 'minisearch'
 import {
   createContext,
   type FC,
   type PropsWithChildren,
   useContext,
+  useMemo,
   useState
 } from 'react'
 import { create } from 'zustand'
+
+import { useEffectOnce } from '@/hooks/use-effect-once'
+import type { Product } from '@/types/product'
 
 import type {
   ProductsAction,
@@ -20,27 +24,23 @@ import type {
 const createStore = (
   initialState: ProductsState
 ): UseProductsStoreContextReturn =>
-  create<ProductsState & ProductsAction>()(
-    persistNSync(
-      (set, getState) => ({
-        ...initialState,
-        setPagination: (updaterOrValue: Updater<PaginationState>) => {
-          const pagination =
-            typeof updaterOrValue === 'function'
-              ? updaterOrValue(getState().pagination)
-              : updaterOrValue
+  create<ProductsState & ProductsAction>()((set, getState) => ({
+    ...initialState,
+    setPagination: (updaterOrValue: Updater<PaginationState>) => {
+      const pagination =
+        typeof updaterOrValue === 'function'
+          ? updaterOrValue(getState().pagination)
+          : updaterOrValue
 
-          set({ pagination })
-        },
-        getProduct: (id: string) => {
-          return getState().products.find(p => p.id.toString() === id)
-        }
-      }),
-      {
-        name: 'products-store'
-      }
-    )
-  )
+      set({ pagination })
+    },
+    getProduct: (id: string) => {
+      return getState().products.find(p => p.id.toString() === id)
+    },
+    setSearchQuery: (searchQuery: string | null) => {
+      set({ searchQuery: searchQuery ?? '' })
+    }
+  }))
 
 const ProductsStoreContext = createContext<ReturnType<
   typeof createStore
@@ -60,13 +60,32 @@ export const useProductsStore = (): UseProductsStoreContextReturn => {
 export const ProductsStoreProvider: FC<
   PropsWithChildren & { state: Pick<ProductsState, 'products'> }
 > = ({ state, children }) => {
+  const miniSearch = useMemo(
+    () =>
+      new MiniSearch<Product>({
+        fields: ['title', 'description', 'vendor', 'type', 'status'],
+        searchOptions: {
+          fuzzy: 0.1,
+          prefix: true,
+          combineWith: 'AND'
+        }
+      }),
+    []
+  )
+
+  useEffectOnce(() => {
+    miniSearch.addAll(state.products)
+  })
+
   const [store] = useState(() =>
     createStore({
       ...state,
+      searchQuery: '',
       pagination: {
         pageSize: 12,
-        pageIndex: 1
-      }
+        pageIndex: 0
+      },
+      miniSearch
     })
   )
 

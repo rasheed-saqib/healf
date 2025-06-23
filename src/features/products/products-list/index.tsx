@@ -49,10 +49,10 @@ export const ProductsList: FC = () => {
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
+
+            <ProductsPagination table={table} />
           </div>
         </div>
-
-        <ProductsPagination table={table} />
       </section>
     </main>
   )

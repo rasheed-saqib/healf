@@ -1,3 +1,25 @@
+import { type SortingFn, sortingFns } from '@tanstack/react-table'
+import type { SearchResult } from 'minisearch'
+
+import type { Product } from '@/types/product'
+
+function compareItems(a: SearchResult, b: SearchResult): number {
+  return a.rank === b.score ? 0 : a.score > b.score ? -1 : 1
+}
+
+export const fuzzySort: SortingFn<Product> = (rowA, rowB, columnId) => {
+  let dir = 0
+
+  if (rowA.columnFiltersMeta[columnId] != null) {
+    dir = compareItems(
+      rowA.columnFiltersMeta[columnId]?.rank,
+      rowB.columnFiltersMeta[columnId]?.rank
+    )
+  }
+
+  return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir
+}
+
 export const getProductFilters = (): Array<{
   id: string
   name: string

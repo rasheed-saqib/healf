@@ -33,64 +33,71 @@ export const ProductsPagination: FC<ProductsPaginationProps> = ({ table }) => {
   const totalPages = table.getPageCount()
 
   return (
-    <div className="mt-8 flex justify-end gap-8">
-      <Pagination className="justify-end">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationFirst
-              onClick={table.firstPage}
-              disabled={!table.getCanPreviousPage()}
-              isActive={currentPage === 1}
-            />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationPrevious
-              onClick={table.previousPage}
-              disabled={currentPage === 1}
-            />
-          </PaginationItem>
+    <div className="mt-8 flex w-full items-center justify-between">
+      <p className="text-sm text-neutral-600">
+        Page {currentPage} of {totalPages} | Total:{' '}
+        {table.getFilteredRowModel().rows.length} items
+      </p>
 
-          <PaginationLink className="w-fit min-w-9 px-2" isActive>
-            {currentPage}
-          </PaginationLink>
+      <div className="flex items-center gap-8">
+        <Pagination className="justify-end">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationFirst
+                onClick={table.firstPage}
+                disabled={!table.getCanPreviousPage()}
+                isActive={currentPage === 1}
+              />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={table.previousPage}
+                disabled={currentPage === 1}
+              />
+            </PaginationItem>
 
-          <PaginationItem>
-            <PaginationNext
-              onClick={table.nextPage}
-              disabled={currentPage === totalPages}
-            />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLast
-              onClick={table.lastPage}
-              disabled={!table.getCanNextPage()}
-              isActive={currentPage === totalPages}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+            <PaginationLink className="w-fit min-w-9 px-2" isActive>
+              {currentPage}
+            </PaginationLink>
 
-      <Select
-        value={table.getState().pagination.pageSize.toString()}
-        onValueChange={value => {
-          const pageSize = Number.parseInt(value)
-          table.setPageSize(pageSize)
-        }}
-      >
-        <SelectTrigger>
-          <SelectValue placeholder="Select" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Page Size</SelectLabel>
-            {PAGE_SIZES.map(size => (
-              <SelectItem key={size} value={size.toString()}>
-                {size}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+            <PaginationItem>
+              <PaginationNext
+                onClick={table.nextPage}
+                disabled={currentPage === totalPages}
+              />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLast
+                onClick={table.lastPage}
+                disabled={!table.getCanNextPage()}
+                isActive={currentPage === totalPages}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+
+        <Select
+          value={table.getState().pagination.pageSize.toString()}
+          onValueChange={value => {
+            const pageSize = Number.parseInt(value)
+            table.setPageSize(pageSize)
+          }}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Page Size</SelectLabel>
+              {PAGE_SIZES.map(size => (
+                <SelectItem key={size} value={size.toString()}>
+                  {size}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   )
 }

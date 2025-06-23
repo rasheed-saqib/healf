@@ -11,6 +11,7 @@ export const RootLayout: FC<PropsWithChildren> = ({ children }) => {
       <body className={`${geistMono.variable} antialiased`}>
         <Navbar />
         <Toaster />
+
         {children}
       </body>
     </html>

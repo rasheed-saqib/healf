@@ -18,9 +18,21 @@ import {
 } from '@/components/ui/dialog'
 import { MagnifyingGlassIcon } from '@/icons/magnifying-glass'
 
+import { useProductSearchbar } from './use-product-searchbar'
+
 export const ProductsSearchbar: FC = () => {
+  const {
+    open,
+    setOpen,
+    searchQuery,
+    setSearchQuery,
+    suggestions,
+    onSelectSuggestion,
+    onInputKeyDown
+  } = useProductSearchbar()
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="icon">
           <MagnifyingGlassIcon className="size-4" />
@@ -37,15 +49,19 @@ export const ProductsSearchbar: FC = () => {
           </DialogDescription>
         </DialogHeader>
         <Command>
-          <CommandInput placeholder="Search for products by name, category, or vendor.." />
+          <CommandInput
+            placeholder="Search for products by name, category, or vendor.."
+            value={searchQuery}
+            onValueChange={setSearchQuery}
+            onKeyDown={onInputKeyDown}
+          />
           <CommandList>
             <CommandGroup heading="Suggestions">
-              <CommandItem>
-                <span>Calendar</span>
-              </CommandItem>
-              <CommandItem>
-                <span>Search Emoji</span>
-              </CommandItem>
+              {suggestions.map(suggestion => (
+                <CommandItem key={suggestion} onSelect={onSelectSuggestion}>
+                  {suggestion}
+                </CommandItem>
+              ))}
             </CommandGroup>
           </CommandList>
         </Command>
