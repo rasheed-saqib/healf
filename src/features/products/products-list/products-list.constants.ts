@@ -8,9 +8,45 @@ export const PRODUCTS_TABLE_COLUMNS: Array<ColumnDef<Product>> = [
   { accessorKey: 'id' },
   { accessorKey: 'title', sortingFn: fuzzySort },
   { accessorKey: 'description', sortingFn: fuzzySort },
-  { accessorKey: 'vendor', sortingFn: fuzzySort },
-  { accessorKey: 'type', sortingFn: fuzzySort },
-  { accessorKey: 'status', sortingFn: fuzzySort },
+  {
+    accessorKey: 'vendor',
+    sortingFn: fuzzySort,
+    filterFn: (row, columnId, filters: string[]) => {
+      if (!Array.isArray(filters) || filters.length === 0) {
+        return true
+      }
+
+      return filters.some(
+        filter => filter.toLowerCase() === row.original.vendor.toLowerCase()
+      )
+    }
+  },
+  {
+    accessorKey: 'type',
+    sortingFn: fuzzySort,
+    filterFn: (row, columnId, filters: string[]) => {
+      if (!Array.isArray(filters) || filters.length === 0) {
+        return true
+      }
+
+      return filters.some(
+        filter => filter.toLowerCase() === row.original.status.toLowerCase()
+      )
+    }
+  },
+  {
+    accessorKey: 'status',
+    sortingFn: fuzzySort,
+    filterFn: (row, columnId, filters: string[]) => {
+      if (!Array.isArray(filters) || filters.length === 0) {
+        return true
+      }
+
+      return filters.some(
+        filter => filter.toLowerCase() === row.original.status.toLowerCase()
+      )
+    }
+  },
   {
     accessorKey: 'price_range',
     sortingFn: (rowA, rowB) => {

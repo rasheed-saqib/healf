@@ -28,13 +28,23 @@ export const useProductsList = (): UseProductsListReturn => {
     setPagination,
     miniSearch,
     searchQuery,
-    sortOption
+    sortOption,
+    filters
   } = useProductsStore()(state => state)
 
   const sorting = useMemo(
     () => (sortOption == null ? [] : PRODUCTS_SORT_OPTIONS[sortOption].value),
     [sortOption]
   )
+
+  const columnFilters = useMemo(() => {
+    return Object.entries(filters).map(([key, value]) => {
+      return {
+        id: key,
+        value
+      }
+    })
+  }, [filters])
 
   const hits = useMemo(() => {
     const results = miniSearch.search(searchQuery)
@@ -71,7 +81,8 @@ export const useProductsList = (): UseProductsListReturn => {
     state: {
       pagination,
       globalFilter: searchQuery,
-      sorting
+      sorting,
+      columnFilters
     },
     enableGlobalFilter: true,
     globalFilterFn: 'fuzzy',

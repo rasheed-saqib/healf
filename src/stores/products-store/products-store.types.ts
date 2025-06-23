@@ -10,6 +10,7 @@ export interface ProductsState {
   miniSearch: MiniSearch
   searchQuery: string
   sortOption: string | null
+  filters: Record<string, string[]>
 }
 
 export interface ProductsAction {
@@ -17,6 +18,7 @@ export interface ProductsAction {
   getProduct: (id: string) => Product | undefined
   setSearchQuery: (query: string) => void
   setSortOption: (option: string | null) => void
+  setFilters: (filters: Record<string, string[]>) => void
 }
 
 export type UseProductsStoreContextReturn = UseBoundStore<

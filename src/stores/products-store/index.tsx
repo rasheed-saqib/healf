@@ -42,6 +42,9 @@ const createStore = (
     },
     setSortOption: (sortOption: string | null) => {
       set({ sortOption })
+    },
+    setFilters: (filters: Record<string, string[]>) => {
+      set({ filters })
     }
   }))
 
@@ -89,6 +92,7 @@ export const ProductsStoreProvider: FC<
       },
       searchQuery: '',
       sortOption: null,
+      filters: {},
       miniSearch
     })
   )
