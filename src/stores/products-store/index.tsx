@@ -39,6 +39,9 @@ const createStore = (
     },
     setSearchQuery: (searchQuery: string | null) => {
       set({ searchQuery: searchQuery ?? '' })
+    },
+    setSortOption: (sortOption: string | null) => {
+      set({ sortOption })
     }
   }))
 
@@ -63,7 +66,7 @@ export const ProductsStoreProvider: FC<
   const miniSearch = useMemo(
     () =>
       new MiniSearch<Product>({
-        fields: ['title', 'description', 'vendor', 'type', 'status'],
+        fields: ['title', 'description'],
         searchOptions: {
           fuzzy: 0.1,
           prefix: true,
@@ -80,11 +83,12 @@ export const ProductsStoreProvider: FC<
   const [store] = useState(() =>
     createStore({
       ...state,
-      searchQuery: '',
       pagination: {
         pageSize: 12,
         pageIndex: 0
       },
+      searchQuery: '',
+      sortOption: null,
       miniSearch
     })
   )

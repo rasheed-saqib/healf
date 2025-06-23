@@ -30,7 +30,10 @@ const PAGE_SIZES = [12, 24, 48, 96]
 
 export const ProductsPagination: FC<ProductsPaginationProps> = ({ table }) => {
   const currentPage = table.getState().pagination.pageIndex + 1
-  const totalPages = table.getPageCount()
+  const pageSize = table.getState().pagination.pageSize
+  const totalItems = table.getPrePaginationRowModel().rows.length
+
+  const totalPages = Math.ceil(totalItems / pageSize)
 
   return (
     <div className="mt-8 flex w-full items-center justify-between">
@@ -68,7 +71,9 @@ export const ProductsPagination: FC<ProductsPaginationProps> = ({ table }) => {
             </PaginationItem>
             <PaginationItem>
               <PaginationLast
-                onClick={table.lastPage}
+                onClick={() => {
+                  table.setPageIndex(totalPages - 1)
+                }}
                 disabled={!table.getCanNextPage()}
                 isActive={currentPage === totalPages}
               />
@@ -77,10 +82,9 @@ export const ProductsPagination: FC<ProductsPaginationProps> = ({ table }) => {
         </Pagination>
 
         <Select
-          value={table.getState().pagination.pageSize.toString()}
+          value={pageSize.toString()}
           onValueChange={value => {
-            const pageSize = Number.parseInt(value)
-            table.setPageSize(pageSize)
+            table.setPageSize(Number.parseInt(value))
           }}
         >
           <SelectTrigger>

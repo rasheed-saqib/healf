@@ -3,6 +3,7 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   type Table,
   useReactTable
 } from '@tanstack/react-table'
@@ -11,15 +12,29 @@ import { useCallback, useMemo } from 'react'
 import { useProductsStore } from '@/stores/products-store'
 import type { Product } from '@/types/product'
 
-import { PRODUCTS_TABLE_COLUMNS } from './products-list.constants'
+import {
+  PRODUCTS_SORT_OPTIONS,
+  PRODUCTS_TABLE_COLUMNS
+} from './products-list.constants'
 
 interface UseProductsListReturn {
   table: Table<Product>
 }
 
 export const useProductsList = (): UseProductsListReturn => {
-  const { products, pagination, setPagination, miniSearch, searchQuery } =
-    useProductsStore()(state => state)
+  const {
+    products,
+    pagination,
+    setPagination,
+    miniSearch,
+    searchQuery,
+    sortOption
+  } = useProductsStore()(state => state)
+
+  const sorting = useMemo(
+    () => (sortOption == null ? [] : PRODUCTS_SORT_OPTIONS[sortOption].value),
+    [sortOption]
+  )
 
   const hits = useMemo(() => {
     const results = miniSearch.search(searchQuery)
@@ -52,16 +67,18 @@ export const useProductsList = (): UseProductsListReturn => {
     filterFns: {
       fuzzy: filterProducts
     },
-    pageCount: Math.floor(products.length / pagination.pageSize),
+    pageCount: Math.ceil(products.length / pagination.pageSize),
     state: {
       pagination,
-      globalFilter: searchQuery
+      globalFilter: searchQuery,
+      sorting
     },
     enableGlobalFilter: true,
     globalFilterFn: 'fuzzy',
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel()
   })
 

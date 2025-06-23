@@ -4,7 +4,7 @@ import type { SearchResult } from 'minisearch'
 import type { Product } from '@/types/product'
 
 function compareItems(a: SearchResult, b: SearchResult): number {
-  return a.rank === b.score ? 0 : a.score > b.score ? -1 : 1
+  return a.rank === b.score ? 0 : a.score > b.score ? 1 : -1
 }
 
 export const fuzzySort: SortingFn<Product> = (rowA, rowB, columnId) => {

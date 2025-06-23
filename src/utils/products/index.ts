@@ -1,3 +1,5 @@
+import { PRODUCT_FORMATTERS } from '@/constants/product'
+
 export const formatProducts = (
   products: Array<Record<string, string>>,
   map: Record<string, string> = {}
@@ -10,7 +12,9 @@ export const formatProducts = (
     for (const [destKey, srcKey] of pairs) {
       if (srcKey in product) {
         try {
-          result[destKey] = JSON.parse(product[srcKey])
+          const formatter = PRODUCT_FORMATTERS[destKey]
+
+          result[destKey] = formatter(product[srcKey]) as string
         } catch {
           result[destKey] = product[srcKey]
         }

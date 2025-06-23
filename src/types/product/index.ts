@@ -8,14 +8,17 @@ export type Product = {
   type: string
   price_range: {
     min_variant_price?: {
-      amount: string
+      amount: number
       currency_code: string
     }
     max_variant_price?: {
-      amount: string
+      amount: number
       currency_code: string
     }
   }
   status: string
   url: string
+  inventory: number
+  variants: number
+  created_at: string
 }

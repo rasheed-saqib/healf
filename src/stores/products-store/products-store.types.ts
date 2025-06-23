@@ -9,12 +9,14 @@ export interface ProductsState {
   pagination: PaginationState
   miniSearch: MiniSearch
   searchQuery: string
+  sortOption: string | null
 }
 
 export interface ProductsAction {
   setPagination: (data: Updater<PaginationState>) => void
   getProduct: (id: string) => Product | undefined
   setSearchQuery: (query: string) => void
+  setSortOption: (option: string | null) => void
 }
 
 export type UseProductsStoreContextReturn = UseBoundStore<

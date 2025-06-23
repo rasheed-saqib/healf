@@ -1,3 +1,5 @@
+'use client'
+
 import type { FC } from 'react'
 
 import {
@@ -6,29 +8,27 @@ import {
   SelectGroup,
   SelectItem,
   SelectLabel,
-  SelectTrigger
+  SelectTrigger,
+  SelectValue
 } from '@/components/ui/select'
+import { useProductsStore } from '@/stores/products-store'
 
-const SORT_OPTIONS = [
-  { name: 'Most Popular', href: '#', current: true },
-  { name: 'Best Rating', href: '#', current: false },
-  { name: 'Newest', href: '#', current: false },
-  { name: 'Price: Low to High', href: '#', current: false },
-  { name: 'Price: High to Low', href: '#', current: false }
-]
+import { PRODUCTS_SORT_OPTIONS } from '../products-list.constants'
 
 export const SortOptions: FC = () => {
+  const { sortOption, setSortOption } = useProductsStore()(state => state)
+
   return (
-    <Select>
+    <Select value={sortOption ?? ''} onValueChange={setSortOption}>
       <SelectTrigger className="hover:bg-accent hover:text-accent-foreground border-none bg-transparent shadow-none focus-visible:border-0 focus-visible:ring-0">
-        Sort
+        <SelectValue placeholder="Sort" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Sort options</SelectLabel>
-          {SORT_OPTIONS.map(option => (
-            <SelectItem key={option.name} value={option.name}>
-              {option.name}
+          {Object.entries(PRODUCTS_SORT_OPTIONS).map(([key, { label }]) => (
+            <SelectItem key={key} value={key}>
+              {label}
             </SelectItem>
           ))}
         </SelectGroup>
