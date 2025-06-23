@@ -1,5 +1,5 @@
 import type { Table } from '@tanstack/react-table'
-import type { FC } from 'react'
+import { type FC, useMemo } from 'react'
 
 import {
   Pagination,
@@ -35,8 +35,18 @@ export const ProductsPagination: FC<ProductsPaginationProps> = ({ table }) => {
 
   const totalPages = Math.ceil(totalItems / pageSize)
 
+  const visiblePages = useMemo(() => {
+    const startingPage = Math.max(1, currentPage - 1)
+    const endingPage = Math.min(totalPages + 1, currentPage + 2)
+
+    return Array.from(
+      { length: endingPage - startingPage },
+      (_, index) => startingPage + index
+    )
+  }, [currentPage, totalPages])
+
   return (
-    <div className="mt-8 flex w-full items-center justify-between">
+    <div className="mt-8 flex w-full flex-col items-center justify-between gap-4 md:flex-row">
       <p className="text-sm text-neutral-600">
         Page {currentPage} of {totalPages} | Total:{' '}
         {table.getFilteredRowModel().rows.length} items
@@ -59,9 +69,18 @@ export const ProductsPagination: FC<ProductsPaginationProps> = ({ table }) => {
               />
             </PaginationItem>
 
-            <PaginationLink className="w-fit min-w-9 px-2" isActive>
-              {currentPage}
-            </PaginationLink>
+            {visiblePages.map(page => (
+              <PaginationItem key={page}>
+                <PaginationLink
+                  onClick={() => {
+                    table.setPageIndex(page - 1)
+                  }}
+                  isActive={currentPage === page}
+                >
+                  {page}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
 
             <PaginationItem>
               <PaginationNext

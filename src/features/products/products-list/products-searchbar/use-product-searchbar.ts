@@ -1,6 +1,7 @@
 import { type KeyboardEvent, useCallback, useMemo, useState } from 'react'
 import { useDebounce } from 'use-debounce'
 
+import { useSyncedState } from '@/hooks/use-synced-state'
 import { useProductsStore } from '@/stores/products-store'
 
 interface UseProductSearchbarReturn {
@@ -11,14 +12,17 @@ interface UseProductSearchbarReturn {
   suggestions: string[]
   onInputKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void
   onSelectSuggestion: (suggestion: string) => void
+  recentSearches: string[]
 }
 
 export const useProductSearchbar = (): UseProductSearchbarReturn => {
   const [open, setOpen] = useState(false)
-
   const { miniSearch, searchQuery, setSearchQuery } = useProductsStore()(
     state => state
   )
+  const [recentSearches, setRecentSearches] = useSyncedState<string[]>([], {
+    key: 'recent-product-searches'
+  })
 
   const [debouncedSearch] = useDebounce(searchQuery, 300)
 
@@ -42,19 +46,32 @@ export const useProductSearchbar = (): UseProductSearchbarReturn => {
     return results.map(suggestion => suggestion.suggestion)
   }, [debouncedSearch, miniSearch])
 
-  const onInputKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      setOpen(false)
-    }
-  }, [])
+  const onInputKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        e.preventDefault()
+
+        setRecentSearches(prev => [
+          ...new Set([searchQuery.toLowerCase(), ...prev])
+        ])
+
+        setOpen(false)
+      }
+    },
+    [setRecentSearches, searchQuery]
+  )
 
   const onSelectSuggestion = useCallback(
     (suggestion: string) => {
       setSearchQuery(suggestion)
+
+      setRecentSearches(prev => [
+        ...new Set([suggestion.toLowerCase(), ...prev])
+      ])
+
       setOpen(false)
     },
-    [setSearchQuery]
+    [setSearchQuery, setRecentSearches]
   )
 
   return {
@@ -64,6 +81,7 @@ export const useProductSearchbar = (): UseProductSearchbarReturn => {
     setSearchQuery,
     suggestions,
     onInputKeyDown,
-    onSelectSuggestion
+    onSelectSuggestion,
+    recentSearches: recentSearches.slice(0, 5)
   }
 }

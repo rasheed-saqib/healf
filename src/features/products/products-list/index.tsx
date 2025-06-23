@@ -4,6 +4,7 @@ import type { FC } from 'react'
 
 import { ProductCard } from '@/components/product-card'
 
+import { FiltersBadges } from './filters-badges'
 import { FiltersSheet } from './filters-sheet'
 import { NoProjects } from './no-projects'
 import { ProductsFilters } from './products-filters'
@@ -19,7 +20,7 @@ export const ProductsList: FC = () => {
 
   return (
     <main className="mx-auto px-4 sm:px-6 lg:px-8 xl:container">
-      <div className="flex items-baseline justify-between border-b border-gray-200 pt-24 pb-6">
+      <div className="flex flex-col items-baseline justify-between border-b border-gray-200 pt-24 pb-6 md:flex-row">
         <h1 className="text-3xl font-bold text-gray-900">
           Explore Your Catalog
         </h1>
@@ -42,6 +43,8 @@ export const ProductsList: FC = () => {
           </div>
 
           <div className="lg:col-span-3">
+            <FiltersBadges />
+
             {products.length === 0 && <NoProjects />}
 
             <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">

@@ -9,7 +9,7 @@ export interface ProductsState {
   pagination: PaginationState
   miniSearch: MiniSearch
   searchQuery: string
-  sortOption: string | null
+  sort: string | null
   filters: Record<string, string[]>
 }
 
@@ -17,7 +17,7 @@ export interface ProductsAction {
   setPagination: (data: Updater<PaginationState>) => void
   getProduct: (id: string) => Product | undefined
   setSearchQuery: (query: string) => void
-  setSortOption: (option: string | null) => void
+  setSort: (option: string | null) => void
   setFilters: (filters: Record<string, string[]>) => void
 }
 

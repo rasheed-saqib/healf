@@ -40,8 +40,8 @@ const createStore = (
     setSearchQuery: (searchQuery: string | null) => {
       set({ searchQuery: searchQuery ?? '' })
     },
-    setSortOption: (sortOption: string | null) => {
-      set({ sortOption })
+    setSort: (sort: string | null) => {
+      set({ sort })
     },
     setFilters: (filters: Record<string, string[]>) => {
       set({ filters })
@@ -91,7 +91,7 @@ export const ProductsStoreProvider: FC<
         pageIndex: 0
       },
       searchQuery: '',
-      sortOption: null,
+      sort: null,
       filters: {},
       miniSearch
     })

@@ -28,7 +28,8 @@ export const ProductsSearchbar: FC = () => {
     setSearchQuery,
     suggestions,
     onSelectSuggestion,
-    onInputKeyDown
+    onInputKeyDown,
+    recentSearches
   } = useProductSearchbar()
 
   return (
@@ -55,15 +56,33 @@ export const ProductsSearchbar: FC = () => {
             onValueChange={setSearchQuery}
             onKeyDown={onInputKeyDown}
           />
-          <CommandList>
-            <CommandGroup heading="Suggestions">
-              {suggestions.map(suggestion => (
-                <CommandItem key={suggestion} onSelect={onSelectSuggestion}>
-                  {suggestion}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
+          {suggestions.length > 0 && (
+            <CommandList>
+              <CommandGroup heading="Suggestions">
+                {suggestions.map(suggestion => (
+                  <CommandItem key={suggestion} onSelect={onSelectSuggestion}>
+                    {suggestion}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          )}
+          {recentSearches.length > 0 && (
+            <CommandList>
+              <CommandGroup heading="Recent Searches">
+                {recentSearches.map(search => (
+                  <CommandItem
+                    key={search}
+                    onSelect={() => {
+                      onSelectSuggestion(search)
+                    }}
+                  >
+                    {search}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          )}
         </Command>
       </DialogContent>
     </Dialog>

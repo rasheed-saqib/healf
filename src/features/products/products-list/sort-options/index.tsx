@@ -16,10 +16,10 @@ import { useProductsStore } from '@/stores/products-store'
 import { PRODUCTS_SORT_OPTIONS } from '../products-list.constants'
 
 export const SortOptions: FC = () => {
-  const { sortOption, setSortOption } = useProductsStore()(state => state)
+  const { sort, setSort } = useProductsStore()(state => state)
 
   return (
-    <Select value={sortOption ?? ''} onValueChange={setSortOption}>
+    <Select value={sort ?? ''} onValueChange={setSort}>
       <SelectTrigger className="hover:bg-accent hover:text-accent-foreground border-none bg-transparent shadow-none focus-visible:border-0 focus-visible:ring-0">
         <SelectValue placeholder="Sort" />
       </SelectTrigger>

@@ -28,13 +28,13 @@ export const useProductsList = (): UseProductsListReturn => {
     setPagination,
     miniSearch,
     searchQuery,
-    sortOption,
+    sort,
     filters
   } = useProductsStore()(state => state)
 
   const sorting = useMemo(
-    () => (sortOption == null ? [] : PRODUCTS_SORT_OPTIONS[sortOption].value),
-    [sortOption]
+    () => (sort == null ? [] : PRODUCTS_SORT_OPTIONS[sort].value),
+    [sort]
   )
 
   const columnFilters = useMemo(() => {
