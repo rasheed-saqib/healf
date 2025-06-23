@@ -3,13 +3,10 @@ import type { FC } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Command,
-  CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut
 } from '@/components/ui/command'
 import {
   Dialog,
@@ -29,7 +26,10 @@ export const ProductsSearchbar: FC = () => {
           <MagnifyingGlassIcon className="size-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent showCloseButton={false} className="top-4 translate-y-0 overflow-hidden p-0 sm:max-w-2xl">
+      <DialogContent
+        showCloseButton={false}
+        className="top-4 translate-y-0 overflow-hidden p-0 sm:max-w-2xl"
+      >
         <DialogHeader className="sr-only">
           <DialogTitle>Search Products</DialogTitle>
           <DialogDescription>

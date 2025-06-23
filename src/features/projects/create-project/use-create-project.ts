@@ -2,13 +2,11 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { useCallback, useEffect } from 'react'
-import { type DropzoneState, useDropzone } from 'react-dropzone'
+import { useCallback, useState } from 'react'
 import {
   type SubmitHandler,
   useForm,
-  type UseFormReturn,
-  useWatch
+  type UseFormReturn
 } from 'react-hook-form'
 import { toast } from 'sonner'
 
@@ -18,67 +16,57 @@ import {
   ProjectSchemaKeys,
   type ProjectSchemaType
 } from '@/schemas/project'
+import { uploadFile } from '@/services/files'
+
+import { CreateProjectTab } from './create-project.constants'
 
 interface UseCreateProjectReturn {
-  dropzone: DropzoneState
   form: UseFormReturn<ProjectSchemaType>
   onSubmit: SubmitHandler<ProjectSchemaType>
+  tab: CreateProjectTab
+  setTab: (tab: CreateProjectTab) => void
 }
 
 export const useCreateProject = (): UseCreateProjectReturn => {
   const router = useRouter()
 
+  const [tab, setTab] = useState<CreateProjectTab>(CreateProjectTab.FILE_TAB)
+
   const form = useForm<ProjectSchemaType>({
-    resolver: zodResolver(ProjectSchema)
+    resolver: zodResolver(ProjectSchema),
+    defaultValues: {
+      [ProjectSchemaKeys.KEYS]: {}
+    }
   })
 
-  const dropzone = useDropzone({
-    maxFiles: 1,
-    accept: {
-      'text/csv': []
-    },
-    disabled: form.formState.isSubmitting,
-    noKeyboard: true,
-    noClick: true,
-    multiple: false,
-    onDrop: async acceptedFiles => {
-      if (acceptedFiles.length === 0) {
-        toast.error('No files were selected', {
-          description: 'Please select a valid CSV file.'
+  const onSubmit: SubmitHandler<ProjectSchemaType> = useCallback(
+    async data => {
+      try {
+        await uploadFile(
+          data[ProjectSchemaKeys.FILE],
+          data[ProjectSchemaKeys.KEYS]
+        )
+
+        toast.success('Project created successfully!', {
+          description:
+            'Your project has been created. You can start exploring products catalog now.'
         })
 
-        return
+        router.push(ABSOLUTE_ROUTES.PRODUCTS)
+      } catch (error) {
+        toast.error('Failed to create project', {
+          description:
+            error instanceof Error ? error.message : 'Please try again later.'
+        })
       }
-
-      form.setValue(ProjectSchemaKeys.FILE, acceptedFiles[0])
-      await form.trigger(ProjectSchemaKeys.FILE)
     },
-    onDropRejected: fileRejections => {
-      toast.error('Failed to upload files', {
-        description:
-          fileRejections[0]?.errors[0].message ?? 'Something went wrong'
-      })
-    }
-  })
-
-  const file = useWatch({
-    control: form.control,
-    name: ProjectSchemaKeys.FILE
-  })
-
-  const onSubmit: SubmitHandler<ProjectSchemaType> = useCallback(() => {
-    router.push(ABSOLUTE_ROUTES.PRODUCTS)
-  }, [router])
-
-  useEffect(() => {
-    if (file != null) {
-      dropzone.inputRef.current.value = ''
-    }
-  }, [file, dropzone])
+    [router]
+  )
 
   return {
-    dropzone,
     form,
-    onSubmit
+    onSubmit,
+    tab,
+    setTab
   }
 }

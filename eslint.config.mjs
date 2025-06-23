@@ -80,6 +80,7 @@ const config = [
       'no-undef': 'off',
       'no-unused-labels': 'error',
       'no-unused-vars': 'off',
+      'promise/avoid-new': 'off',
       'simple-import-sort/exports': 'error',
       'simple-import-sort/imports': 'error',
       'unicorn/consistent-function-scoping': 'off',
